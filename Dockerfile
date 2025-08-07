@@ -21,7 +21,6 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
 COPY main.py /app/main.py
-COPY .env /app/.env
 COPY resources/ /app/resources/
 COPY update_active_status/ /app/update_active_status/
 COPY update_commision_transactions/ /app/update_commision_transactions/
