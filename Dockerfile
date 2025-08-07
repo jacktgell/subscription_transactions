@@ -27,19 +27,17 @@ COPY update_active_status/ /app/update_active_status/
 COPY update_commision_transactions/ /app/update_commision_transactions/
 COPY update_redis/ /app/update_redis/
 
-RUN cat <<EOF > /app/start.sh
-#!/bin/bash
-set -e
-
-# Start Cloud SQL Proxy
-cloud_sql_proxy -instances=\${CLOUD_SQL_CONNECTION_NAME}=tcp:5433 &
-
-# Wait for proxy to initialize
-sleep 10
-
-# Run the main application
-python3 main.py
-EOF
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'set -e' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Start Cloud SQL Proxy' >> /app/start.sh && \
+    echo 'cloud_sql_proxy -instances=${CLOUD_SQL_CONNECTION_NAME}=tcp:5433 &' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Wait for proxy to initialize' >> /app/start.sh && \
+    echo 'sleep 10' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Run the main application' >> /app/start.sh && \
+    echo 'python3 main.py' >> /app/start.sh
 
 RUN useradd -m appuser \
     && chown -R appuser:appuser /app \
