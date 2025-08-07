@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY main.py /app/main.py
 COPY resources/ /app/resources/
 COPY update_active_status/ /app/update_active_status/
-COPY update_commision_transactions/ /app/update_commision_transactions/
+COPY update_commision_transactions_db/ /app/update_commision_transactions_db/
 COPY update_redis/ /app/update_redis/
 
 RUN echo '#!/bin/bash' > /app/start.sh && \
