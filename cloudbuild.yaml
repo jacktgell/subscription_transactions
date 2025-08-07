@@ -1,18 +1,18 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--no-cache', '-t', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription_transactions/subscription_transactions:latest', '.']
+  args: ['build', '--no-cache', '-t', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription-transactions/subscription-transactions:latest', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription_transactions/subscription_transactions:latest']
+  args: ['push', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscriptio-transactions/subscription-transactions:latest']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args:
   - 'run'
   - 'jobs'
   - 'deploy'
-  - 'subscription_transactions'
-  - '--image=asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription_transactions/subscription_transactions:latest'
+  - 'subscription-transactions'
+  - '--image=asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription-transactions/subscription-transactions:latest'
   - '--region=asia-southeast1'
 images:
-- 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription_transactions/subscription_transactions:latest'
+- 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription-transactions/subscription-transactions:latest'
 options:
   logging: CLOUD_LOGGING_ONLY
