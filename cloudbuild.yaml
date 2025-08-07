@@ -2,7 +2,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--no-cache', '-t', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription-transactions/subscription-transactions:latest', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscriptio-transactions/subscription-transactions:latest']
+  args: ['push', 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/subscription-transactions/subscription-transactions:latest']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args:
