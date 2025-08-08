@@ -14,16 +14,17 @@ echo "REDIS_DB=$REDIS_DB"
 echo "REDIS_PASSWORD=$REDIS_PASSWORD"
 
 echo "LOG_LEVEL=$LOG_LEVEL"
+
 echo "Debug: Starting Cloud SQL Proxy"
-/usr/local/bin/cloud_sql_proxy supple-defender-458912-a2:us-central1:backend-postgres-dev --port "${DB_PORT}" --private-ip --debug > /app/proxy.log 2>&1 &
+/usr/local/bin/cloud_sql_proxy "${CLOUD_SQL_CONNECTION_NAME}" --port "${DB_PORT}" --private-ip --debug > /app/proxy.log 2>&1 &
 PROXY_PID=$!
 
 # Poll for proxy readiness with timeout
 TIMEOUT=30
 COUNT=0
-while ! ss -tuln | grep -q ":5432"; do
+while ! ss -tuln | grep -q ":${DB_PORT}"; do
     if [ $COUNT -ge $TIMEOUT ]; then
-        echo "Error: Cloud SQL Proxy failed to listen on port 5432 within $TIMEOUT seconds"
+        echo "Error: Cloud SQL Proxy failed to listen on port ${DB_PORT} within $TIMEOUT seconds"
         cat /app/proxy.log
         exit 1
     fi
@@ -32,11 +33,11 @@ while ! ss -tuln | grep -q ":5432"; do
         cat /app/proxy.log
         exit 1
     fi
-    echo "Debug: Waiting for Cloud SQL Proxy to start on port 5432..."
+    echo "Debug: Waiting for Cloud SQL Proxy to start on port ${DB_PORT}..."
     sleep 1
     COUNT=$((COUNT + 1))
 done
 
-echo "Debug: Cloud SQL Proxy is running (PID: $PROXY_PID) and listening on port 5432"
+echo "Debug: Cloud SQL Proxy is running (PID: $PROXY_PID) and listening on port ${DB_PORT}"
 echo "Debug: Starting main.py"
 exec python3 main.py
