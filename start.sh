@@ -16,7 +16,7 @@ echo "REDIS_PASSWORD=$REDIS_PASSWORD"
 echo "LOG_LEVEL=$LOG_LEVEL"
 
 echo "Debug: Starting Cloud SQL Proxy"
-/usr/local/bin/cloud_sql_proxy "${CLOUD_SQL_CONNECTION_NAME}" --port "${DB_PORT}" --private-ip --debug > /app/proxy.log 2>&1 &
+/usr/local/bin/cloud_sql_proxy "${CLOUD_SQL_CONNECTION_NAME}" --port "${DB_PORT}" --debug > /app/proxy.log 2>&1 &
 PROXY_PID=$!
 
 # Poll for proxy readiness with timeout
