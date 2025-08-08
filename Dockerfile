@@ -29,5 +29,6 @@ RUN useradd -m appuser \
 USER appuser
 ENV PYTHONUNBUFFERED=1 \
     LD_LIBRARY_PATH=/usr/lib \
-    GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+    GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json \
+    CLOUD_SQL_CONNECTION_NAME=supple-defender-458912-a2:us-central1:backend-postgres-dev
 CMD ["./start.sh"]
