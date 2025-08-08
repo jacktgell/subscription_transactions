@@ -15,7 +15,7 @@ echo "REDIS_PASSWORD=$REDIS_PASSWORD"
 
 echo "LOG_LEVEL=$LOG_LEVEL"
 echo "Debug: Starting Cloud SQL Proxy"
-/usr/local/bin/cloud_sql_proxy supple-defender-458912-a2:us-central1:backend-postgres-dev --port 5432 --private-ip --debug > /app/proxy.log 2>&1 &
+/usr/local/bin/cloud_sql_proxy supple-defender-458912-a2:us-central1:backend-postgres-dev --port "${DB_PORT}" --private-ip --debug > /app/proxy.log 2>&1 &
 PROXY_PID=$!
 
 # Poll for proxy readiness with timeout
