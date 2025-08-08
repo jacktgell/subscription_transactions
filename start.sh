@@ -7,18 +7,14 @@ echo "DB_NAME=$DB_NAME"
 echo "PROJECT_ID=$PROJECT_ID"
 echo "DB_SECRET_ID=$DB_SECRET_ID"
 echo "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY"
-
 echo "REDIS_HOST=$REDIS_HOST"
 echo "REDIS_PORT=$REDIS_PORT"
 echo "REDIS_DB=$REDIS_DB"
 echo "REDIS_PASSWORD=$REDIS_PASSWORD"
-
 echo "LOG_LEVEL=$LOG_LEVEL"
-
 echo "Debug: Starting Cloud SQL Proxy"
 /usr/local/bin/cloud_sql_proxy "${CLOUD_SQL_CONNECTION_NAME}" --port "${DB_PORT}" --private-ip --debug > /app/proxy.log 2>&1 &
 PROXY_PID=$!
-
 # Poll for proxy readiness with timeout
 TIMEOUT=30
 COUNT=0
@@ -37,7 +33,9 @@ while ! ss -tuln | grep -q ":${DB_PORT}"; do
     sleep 1
     COUNT=$((COUNT + 1))
 done
-
 echo "Debug: Cloud SQL Proxy is running (PID: $PROXY_PID) and listening on port ${DB_PORT}"
 echo "Debug: Starting main.py"
-exec python3 main.py
+python3 main.py  # Remove 'exec' to allow script continuation after Python exits
+echo "Debug: Outputting Cloud SQL Proxy logs"
+cat /app/proxy.log
+kill $PROXY_PID  # Cleanly stop the proxy
